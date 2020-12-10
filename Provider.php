@@ -93,6 +93,21 @@ class Provider extends AbstractProvider
         return json_decode($response->getBody(), true);
     }
 
+    protected function getUserGroupsByToken($user, $token)
+    {
+        $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
+        $response = $this->getHttpClient()->get(
+            "https://graph.microsoft.com/$userEndpointVersion/users/$user->id/transitiveMemberOf",
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
+
+        return json_decode($response->getBody(), true);
+    }
+
     /**
      * {@inheritdoc}
      */

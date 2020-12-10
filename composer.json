@@ -1,11 +1,11 @@
 {
-    "name": "socialiteproviders/microsoft-graph",
+    "name": "dayanstef/microsoft-graph",
     "description": "Microsoft Graph OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [
         {
-            "name": "Chris Edgerton",
-            "email": "cjedgerton@gmail.com"
+            "name": "Dejan Stefanoski",
+            "email": "dayanstef@gmail.com"
         }
     ],
     "require": {
