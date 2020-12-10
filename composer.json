@@ -13,12 +13,6 @@
     "ext-json": "*",
     "dayanstef/manager": "dev-master"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/dayanstef/manager"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "SocialiteProviders\\Graph\\": ""
