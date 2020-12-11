@@ -1,42 +1,51 @@
-# Graph
+## Laravel Socialite Microsoft Graph
 
 ```bash
-composer require socialiteproviders/microsoft-graph
+composer require dayanstef/microsoft-graph
 ```
 
-## Installation & Basic Usage
+### Installation & Basic Usage
 
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
-
-### Add configuration to `config/services.php`
+#### Add configuration to `config/services.php`
 
 ```php
 'graph' => [    
-  'client_id' => env('GRAPH_CLIENT_ID'),  
-  'client_secret' => env('GRAPH_CLIENT_SECRET'),  
-  'redirect' => env('GRAPH_REDIRECT_URI') 
+  'tenant' => env('MICROSOFT_TENANT_ID'),
+  'client_id' => env('MICROSOFT_CLIENT_ID'),  
+  'client_secret' => env('MICROSOFT_CLIENT_SECRET'),  
+  'redirect' => env('MICROSOFT_REDIRECT_URI') 
 ],
 ```
 
-### Add provider event listener
+#### Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
-Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`.
 
 ```php
+use SocialiteProviders\Manager\SocialiteWasCalled;
+
 protected $listen = [
-    \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-        // ... other providers
+    SocialiteWasCalled::class => [
         'SocialiteProviders\\Graph\\GraphExtendSocialite@handle',
     ],
 ];
 ```
 
-### Usage
+#### Usage
 
-You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('graph')->redirect();
+Socialite::driver('graph')->stateless()->redirect();
+
+// OR
+// Some Applications require specific tenant definition
+Socialite::driver('graph')->setTenantId('MICROSOFT_TENANT_ID')->stateless()->redirect();
+
+// Get a user basic details
+$user = Socialite::driver('graph')->setTenantId('MICROSOFT_TENANT_ID')->stateless()->user();
+
+// Get user groups
+$userGroups = Socialite::driver('graph')->getUserGroupsByToken($user, $user->token);
 ```

@@ -88,10 +88,11 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me/", [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
+                'Content-Type' => 'application/json'
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getUserGroupsByToken($user, $token)
@@ -107,9 +108,10 @@ class Provider extends AbstractProvider
             ],
         );
 
-        return array_values(array_filter(json_decode($response->getBody(), true)['value'], function ($item) {
-            return ($item['@odata.type'] === '#microsoft.graph.group');
-        }));
+        return array_values(array_filter(json_decode($response->getBody()->getContents(), true)['value'],
+            function ($item) {
+                return ($item['@odata.type'] === '#microsoft.graph.group');
+            }));
     }
 
     /**
