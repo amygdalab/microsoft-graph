@@ -93,7 +93,7 @@ class Provider extends AbstractProvider
         return json_decode($response->getBody(), true);
     }
 
-    protected function getUserGroupsByToken($user, $token)
+    public function getUserGroupsByToken($user, $token)
     {
         $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
         $response = $this->getHttpClient()->get(
