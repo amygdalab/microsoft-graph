@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SocialiteProviders\Graph;
 
@@ -29,7 +30,7 @@ class Provider extends AbstractProvider
      * Allows you to override the tenant id that the provider is configured
      * with.
      *
-     * @param string $tenantId
+     * @param  string  $tenantId
      *
      * @return \SocialiteProviders\Graph\Provider
      */
@@ -101,11 +102,14 @@ class Provider extends AbstractProvider
             [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token,
-                ],
-            ]
+                    'Content-Type' => 'application/json'
+                ]
+            ],
         );
 
-        return json_decode($response->getBody(), true);
+        return array_values(array_filter(json_decode($response->getBody(), true)['value'], function ($item) {
+            return ($item['@odata.type'] === '#microsoft.graph.group');
+        }));
     }
 
     /**
@@ -116,21 +120,21 @@ class Provider extends AbstractProvider
         // Mapping default Laravel user keys to the keys that are nested in the
         // response from the provider.
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'],
-            'name'  => $user['displayName'],
+            'id' => $user['id'],
+            'name' => $user['displayName'],
             'email' => $user['mail'] ?? $user['userPrincipalName'],
 
             // The following values are not always required by the provider. We
             // cannot guarantee they will exist in the $user array.
-            'businessPhones'    => Arr::get($user, 'businessPhones'),
-            'displayName'       => Arr::get($user, 'displayName'),
-            'givenName'         => Arr::get($user, 'givenName'),
-            'jobTitle'          => Arr::get($user, 'jobTitle'),
-            'mail'              => Arr::get($user, 'mail'),
-            'mobilePhone'       => Arr::get($user, 'mobilePhone'),
-            'officeLocation'    => Arr::get($user, 'officeLocation'),
+            'businessPhones' => Arr::get($user, 'businessPhones'),
+            'displayName' => Arr::get($user, 'displayName'),
+            'givenName' => Arr::get($user, 'givenName'),
+            'jobTitle' => Arr::get($user, 'jobTitle'),
+            'mail' => Arr::get($user, 'mail'),
+            'mobilePhone' => Arr::get($user, 'mobilePhone'),
+            'officeLocation' => Arr::get($user, 'officeLocation'),
             'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
-            'surname'           => Arr::get($user, 'surname'),
+            'surname' => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
         ]);
     }
