@@ -1,7 +1,7 @@
 ## Laravel Socialite Microsoft Graph
 
 ```bash
-composer require dayanstef/microsoft-graph
+composer require amygdalab/microsoft-graph
 ```
 
 ### Installation & Basic Usage
