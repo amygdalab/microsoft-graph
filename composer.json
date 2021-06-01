@@ -1,11 +1,11 @@
 {
-  "name": "dayanstef/microsoft-graph",
+  "name": "amygdalab/microsoft-graph",
   "description": "Microsoft Graph OAuth2 Provider for Laravel Socialite",
   "license": "MIT",
   "authors": [
     {
-      "name": "Dejan Stefanoski",
-      "email": "dayanstef@gmail.com"
+      "name": "Amygdalab",
+      "email": "support@amygdalab.net"
     }
   ],
   "require": {
